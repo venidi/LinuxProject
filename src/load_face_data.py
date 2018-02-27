@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
 
+# 将分类好的数据加载到内存编号
+
 import cv2 as cv
 import os
 import numpy as np
@@ -7,11 +9,12 @@ import sys
 
 IMAGE_SIZE = 64
 
-# 按照指定图像大小调整尺寸
+
+# 按照指定图像大小调整尺寸 64*64
 def resize_image(image, height=IMAGE_SIZE, width=IMAGE_SIZE):
     top, bottom, left, right = (0, 0, 0, 0)
 
-    # 获取图像尺寸
+    # 获取图像长宽
     h, w, _ = image.shape
 
     # 对于长宽不相等的图片，找到最长的一边
@@ -43,7 +46,9 @@ def resize_image(image, height=IMAGE_SIZE, width=IMAGE_SIZE):
 images = []
 labels = []
 
+
 def read_path(path_name):
+    # 绝对路径
     for dir_one in os.listdir(path_name):
         full_path = os.path.abspath(os.path.join(path_name, dir_one))
 
@@ -57,11 +62,12 @@ def read_path(path_name):
                 image = resize_image(image, IMAGE_SIZE, IMAGE_SIZE)
                 # print('img ok')
 
+                # append
                 images.append(image)
-
                 labels.append(path_name)
 
     return images, labels
+
 
 def load_images(path_name):
     images, labels = read_path(path_name)
@@ -77,6 +83,7 @@ def load_images(path_name):
     labels = np.array([0 if label.endswith('faceD') else 1 for label in labels])
 
     return images, labels
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

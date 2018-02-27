@@ -4,6 +4,7 @@ from src.face_train import Model
 
 if __name__ == '__main__':
     model = Model()
+    # 加载训练完的模型
     model.load_model(file_path='./models/faceD_2.model.h5')
 
     color = (0, 255, 0)
@@ -25,6 +26,7 @@ if __name__ == '__main__':
 
                 image = frame[y-10: y+h+10, x-10: x+w+10]
                 faceID = model.face_predict(image)
+                # 识别并显示
                 if faceID == 0:
                     cv.rectangle(frame, (x-10, y-10), (x+w+10, y+h+10), color, thickness=2)
                     cv.putText(frame, 'FACE_D', (x+30, y+30), cv.FONT_HERSHEY_SIMPLEX, 1,(255, 28, 33), 2)
