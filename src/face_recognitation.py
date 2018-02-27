@@ -1,5 +1,5 @@
 import cv2 as cv
-from face_train import Model
+from src.face_train import Model
 
 
 if __name__ == '__main__':

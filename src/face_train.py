@@ -3,7 +3,7 @@
 import random
 import numpy as np
 import h5py
-from load_face_data import resize_image, load_images, IMAGE_SIZE
+from src.load_face_data import resize_image, load_images, IMAGE_SIZE
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential

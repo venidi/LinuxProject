@@ -1,5 +1,5 @@
-from face_train import Dataset
-from face_train import Model
+from src.face_train import Dataset
+from src.face_train import Model
 
 # 模型验证
 if __name__ == '__main__':
