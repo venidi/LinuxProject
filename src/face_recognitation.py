@@ -2,18 +2,19 @@ import cv2 as cv
 from src.face_train import Model
 
 
-if __name__ == '__main__':
+def face_re(model_path, video_path):
     model = Model()
     # 加载训练完的模型
-    model.load_model(file_path='./models/faceD_2.model.h5')
-
+    # model.load_model(file_path='./models/faceD_2.model.h5')
+    model.load_model(file_path=model_path)
     color = (0, 255, 0)
     cv.namedWindow('PeopleRecognition', 0)
-    video = cv.VideoCapture(r'/home/venidi/FaceRecognition/data/videos/kbj.mp4')
-
+    # video = cv.VideoCapture(r'/home/venidi/FaceRecognition/data/videos/kbr_full.mp4')
+    video = cv.VideoCapture(video_path)
     classifier = cv.CascadeClassifier(r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt2.xml')
 
-    TIME = 3
+    # 抽帧
+    TIME = 5
     C = 1
     while video.isOpened():
         ok,frame = video.read()
@@ -45,3 +46,8 @@ if __name__ == '__main__':
 
     video.release()
     cv.destroyAllWindows()
+
+if __name__ == '__main__':
+    model_path = r'/home/venidi/FaceRecognition/test/LinuxProject/models/faceD_2.model.h5'
+    video_path = r'/home/venidi/FaceRecognition/data/videos/kbr_full.mp4'
+    face_re(model_path, video_path)
