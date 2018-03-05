@@ -15,6 +15,7 @@ def resize_image(image, height=IMAGE_SIZE, width=IMAGE_SIZE):
     top, bottom, left, right = (0, 0, 0, 0)
 
     # 获取图像长宽
+
     h, w, _ = image.shape
 
     # 对于长宽不相等的图片，找到最长的一边
@@ -54,7 +55,7 @@ def read_path(path_name):
 
         if os.path.isdir(full_path):
             read_path(full_path)
-        else: # isfile
+        else:  # isfile
             if dir_one.endswith('.jpg'):
                 image = cv.imread(full_path)
                 # print(full_path)
@@ -64,7 +65,9 @@ def read_path(path_name):
 
                 # append
                 images.append(image)
+                # print(images.shape)
                 labels.append(path_name)
+                # print(labels.shape)
 
     return images, labels
 
@@ -80,7 +83,7 @@ def load_images(path_name):
 
     # 标注数据，'me'文件夹下都是我的脸部图像，全部指定为0，
     # 另外一个文件夹下是闺女的，全部指定为1
-    labels = np.array([0 if label.endswith('faceD') else 1 for label in labels])
+    labels = np.array([0 if label.endswith('face_xi') else 1 for label in labels])
 
     return images, labels
 
@@ -93,3 +96,4 @@ if __name__ == '__main__':
         for label in labels:
             print(label)
         print(labels.shape)
+

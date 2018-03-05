@@ -47,7 +47,8 @@ def face_re(model_path, video_path):
     video.release()
     cv.destroyAllWindows()
 
+
 if __name__ == '__main__':
-    model_path = r'/home/venidi/FaceRecognition/test/LinuxProject/models/faceD_2.model.h5'
-    video_path = r'/home/venidi/FaceRecognition/data/videos/kbr_full.mp4'
+    model_path = r'/home/venidi/FaceRecognition/test/LinuxProject/models/face_xi.model.h5'
+    video_path = r'/home/venidi/FaceRecognition/data/videos/toRe.mp4'
     face_re(model_path, video_path)

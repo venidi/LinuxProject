@@ -32,8 +32,10 @@ class DataSet:
     # 加载数据集并按照交叉验证的原则划分数据集并进行相关预处理工作
     def load(self, img_row = IMAGE_SIZE, img_col = IMAGE_SIZE, img_chl = 3, nb_classes = 2):
         # 加载到内存
+        print(self.path_name)
         images, labels = load_images(self.path_name)
-        # print('load images ok')
+        print('load images ok')
+
 
         # 随机交叉验证，根据test_size参数按比例划分数据集
         train_images, valid_images, train_labels, valid_labels = train_test_split(images, labels, test_size = 0.3, random_state=random.randint(0, 100))
@@ -177,7 +179,7 @@ class Model:
                                      epochs = epochs,
                                      validation_data=(dataset.valid_images,dataset.valid_lables))
 
-    MODEL_PATH = r'./models/faceD_2.model.h5'
+    MODEL_PATH = ''
 
     # 模型保存
     def save_model(self, file_path = MODEL_PATH):
@@ -188,8 +190,8 @@ class Model:
         self.model = load_model(file_path)
 
     # 模型评估
-    def evaluate(self, dataset):
-        score = self.model.evaluate(dataset.test_images, dataset.test_lables, verbose = 1)
+    def evaluate(self, dataSet):
+        score = self.model.evaluate(dataSet.test_images, dataSet.test_lables, verbose = 1)
         print("%s: %.2f%%" % (self.model.metrics_names[1], score[1] * 100))
 
     # 识别人脸
@@ -220,11 +222,12 @@ class Model:
 
 
 if __name__ == '__main__':
-    dataset = DataSet('./faces/')
-    dataset.load()
+    dataSet = DataSet(r'./faces/')
+    print(dataSet.path_name)
+    dataSet.load()
 
     model = Model()
-    model.build_model(dataset)
-    model.train(dataset)
-    model.evaluate(dataset)
-    model.save_model(file_path=r'./models/faceD_2.model.h5')
+    model.build_model(dataSet)
+    model.train(dataSet)
+    model.evaluate(dataSet)
+    model.save_model(file_path=r'/home/venidi/FaceRecognition/test/LinuxProject/models/face_xi.model.h5')
