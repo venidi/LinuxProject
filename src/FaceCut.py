@@ -6,14 +6,16 @@
 import cv2 as cv
 
 
-def face_cut(video_path, save_path):
+# def face_cut(video_path, save_path):
+def face_cut(video_path, save_path, cfier_path):
     cv.namedWindow('PeopleRecognition', cv.WINDOW_NORMAL)
     # video = cv.VideoCapture(r'/home/venidi/FaceRecognition/data/videos/kbjdkr.mp4')
     video = cv.VideoCapture(video_path)
     # path_name = r'./faces/faceO'
     path_name = save_path
     # openCV的人脸分类器
-    classifier = cv.CascadeClassifier(r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt.xml')
+    # classifier = cv.CascadeClassifier(r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt.xml')
+    classifier = cv.CascadeClassifier(cfier_path)
 
     color = (0, 135, 255)
     num = 0
@@ -60,4 +62,5 @@ def face_cut(video_path, save_path):
 if __name__ == '__main__':
     video_path = r'/home/venidi/FaceRecognition/data/videos/toRe.mp4'
     save_path = r'/home/venidi/FaceRecognition/test/LinuxProject/faces/face_zz'
-    face_cut(video_path, save_path)
+    clfier_path = r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt.xml'
+    face_cut(video_path, save_path, clfier_path)
