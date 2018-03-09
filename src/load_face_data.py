@@ -72,7 +72,7 @@ def read_path(path_name):
     return images, labels
 
 
-def load_images(path_name):
+def load_images(path_name, end_name):
     images, labels = read_path(path_name)
 
     # 将输入的所有图片转成四维数组，尺寸为(图片数量*IMAGE_SIZE*IMAGE_SIZE*3)
@@ -83,7 +83,7 @@ def load_images(path_name):
 
     # 标注数据，'me'文件夹下都是我的脸部图像，全部指定为0，
     # 另外一个文件夹下是闺女的，全部指定为1
-    labels = np.array([0 if label.endswith('face_xi') else 1 for label in labels])
+    labels = np.array([0 if label.endswith(end_name) else 1 for label in labels])
 
     return images, labels
 

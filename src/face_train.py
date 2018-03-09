@@ -30,10 +30,10 @@ class DataSet:
         self.input_shape = None
 
     # 加载数据集并按照交叉验证的原则划分数据集并进行相关预处理工作
-    def load(self, img_row = IMAGE_SIZE, img_col = IMAGE_SIZE, img_chl = 3, nb_classes = 2):
+    def load(self, img_row = IMAGE_SIZE, img_col = IMAGE_SIZE, end_name='', img_chl = 3, nb_classes = 2):
         # 加载到内存
         print(self.path_name)
-        images, labels = load_images(self.path_name)
+        images, labels = load_images(self.path_name, end_name)
         print('load images ok')
 
 
@@ -224,7 +224,7 @@ class Model:
 if __name__ == '__main__':
     dataSet = DataSet(r'./faces/')
     print(dataSet.path_name)
-    dataSet.load()
+    dataSet.load(end_name='face_xi')
 
     model = Model()
     model.build_model(dataSet)

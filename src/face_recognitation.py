@@ -52,4 +52,4 @@ if __name__ == '__main__':
     model_path = r'/home/venidi/FaceRecognition/test/LinuxProject/models/face_xi.model.h5'
     video_path = r'/home/venidi/FaceRecognition/data/videos/toRe.mp4'
     clifer_path = r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt2.xml'
-    face_re(model_path, video_path)
+    face_re(model_path, video_path,clifer_path)
