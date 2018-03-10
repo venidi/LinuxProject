@@ -8,7 +8,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys,os
-from PyQt5.QtWidgets import QApplication,QMainWindow, QFileDialog,QWidget
+from PyQt5.QtWidgets import QApplication,QMainWindow, QFileDialog, QWidget
+from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtCore import QDir
 from src import FaceCut, face_train, face_recognitation
 
@@ -173,7 +174,7 @@ class Ui_MainWindow(QWidget):
         self.slt_model.clicked.connect(self.select_model)
         self.slt_re_video.clicked.connect(self.select_re_video)
         self.re_search.clicked.connect(self.re_video)
-        
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -233,13 +234,20 @@ class Ui_MainWindow(QWidget):
     def faceCut(self):
         people_name = self.input_name_lineEdit.text()
         save_path = r'/home/venidi/FaceRecognition/test/LinuxProject/faces/' + people_name
-        os.mkdir(save_path)
+        # os.mkdir(save_path)
         vedio_path = self.input_video_path.text()
         classifer_path = self.classifer_path.text()
         print('vedio path->'+vedio_path)
         print('save_path->'+save_path)
         print('classifer_path->'+classifer_path)
-        FaceCut.face_cut(vedio_path,save_path,classifer_path)
+        # FaceCut.face_cut(vedio_path,save_path,classifer_path)
+
+        # 打开获取的样本，手动删除
+        fileNames, _ = QFileDialog.getOpenFileNames(self, '选择要删除的图片', save_path, '*.jpg')
+        print(fileNames)
+        if fileNames != '':
+            for name in fileNames:
+                os.remove(name)
 
     def open_pics_file(self):
         fileDir = QFileDialog.getExistingDirectory(self, "选择文件夹", QDir.homePath())
