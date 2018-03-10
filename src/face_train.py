@@ -221,13 +221,24 @@ class Model:
         return result[0]
 
 
-if __name__ == '__main__':
-    dataSet = DataSet(r'./faces/')
+# if __name__ == '__main__':
+#     dataSet = DataSet(r'./faces/')
+#     print(dataSet.path_name)
+#     dataSet.load(end_name='face_xi')
+#
+#     model = Model()
+#     model.build_model(dataSet)
+#     model.train(dataSet)
+#     model.evaluate(dataSet)
+#     model.save_model(file_path=r'/home/venidi/FaceRecognition/test/LinuxProject/models/face_xi.model.h5')
+
+def train(end_name, model_save_path):
+    dataSet = DataSet(r'../faces')
     print(dataSet.path_name)
-    dataSet.load(end_name='face_xi')
+    dataSet.load(end_name=end_name)
 
     model = Model()
     model.build_model(dataSet)
     model.train(dataSet)
     model.evaluate(dataSet)
-    model.save_model(file_path=r'/home/venidi/FaceRecognition/test/LinuxProject/models/face_xi.model.h5')
+    model.save_model(file_path=model_save_path)
