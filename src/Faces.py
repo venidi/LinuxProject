@@ -173,6 +173,7 @@ class Ui_MainWindow(QWidget):
         self.slt_model.clicked.connect(self.select_model)
         self.slt_re_video.clicked.connect(self.select_re_video)
         self.re_search.clicked.connect(self.re_video)
+        
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
