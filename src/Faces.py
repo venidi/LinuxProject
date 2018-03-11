@@ -6,14 +6,15 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 import sys,os
-from PyQt5.QtWidgets import QApplication,QMainWindow, QFileDialog, QWidget
-from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtWidgets import QApplication,QMainWindow, QFileDialog, QWidget,QMessageBox
 from PyQt5.QtCore import QDir
-from src import FaceCut, face_train, face_recognitation
+from src import face_recognitation, face_train
+
 
 class Ui_MainWindow(QWidget):
+    # 初始化布局
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(601, 472)
@@ -163,9 +164,13 @@ class Ui_MainWindow(QWidget):
         self.menubar.addAction(self.menu_3.menuAction())
         self.menubar.addAction(self.menu_4.menuAction())
 
+        # 绑定
         self.retranslateUi(MainWindow)
+        # 工具栏绑定
         self.exit.triggered.connect(MainWindow.close)
         self.input_video.triggered.connect(self.open_video_file)
+        self.input_model.triggered.connect(self.select_model)
+        # 界面绑定
         self.slt_input_video.clicked.connect(self.open_video_file)
         self.slt_classifer.clicked.connect(self.select_claasifer)
         self.face_cut.clicked.connect(self.faceCut)
@@ -212,6 +217,7 @@ class Ui_MainWindow(QWidget):
         self.set_speed.setText(_translate("MainWindow", "检索速度设置"))
         self.man.setText(_translate("MainWindow", "查看使用帮助"))
 
+
     # 选择输入样本按钮
     def open_video_file(self):
         fileName, _ = QFileDialog.getOpenFileName(self, '选择样本视频',
@@ -242,13 +248,18 @@ class Ui_MainWindow(QWidget):
         print('classifer_path->'+classifer_path)
         # FaceCut.face_cut(vedio_path,save_path,classifer_path)
 
-        # 打开获取的样本，手动删除
-        fileNames, _ = QFileDialog.getOpenFileNames(self, '选择要删除的图片', save_path, '*.jpg')
-        print(fileNames)
-        if fileNames != '':
-            for name in fileNames:
-                os.remove(name)
+        if vedio_path == '' or classifer_path == '' or people_name == '':
+            QMessageBox.warning(self,'Warning','信息不完整',QMessageBox.Ok)
+        else:
+            # 打开获取的样本，手动删除
+            fileNames, _ = QFileDialog.getOpenFileNames(self, '选择要删除的图片', save_path, '*.jpg')
+            print(fileNames)
+            if fileNames != '':
+                for name in fileNames:
+                    os.remove(name)
 
+
+    # 选择样本
     def open_pics_file(self):
         fileDir = QFileDialog.getExistingDirectory(self, "选择文件夹", QDir.homePath())
         if fileDir != '':
@@ -265,7 +276,10 @@ class Ui_MainWindow(QWidget):
         print('end_name->' + end_name)
         save_name = r'../models/' + end_name + '.model.h5'
         print('save_name->' + save_name)
-        face_train.train(end_name,model_save_path=save_name)
+        if full_path == '':
+            QMessageBox.warning(self, 'Warning', '未选择文件夹', QMessageBox.Ok)
+        else:
+            face_train.train(end_name,model_save_path=save_name)
 
     # 选择模型
     def select_model(self):
@@ -290,7 +304,13 @@ class Ui_MainWindow(QWidget):
         model_path = self.model_path.text()
         video_path = self.re_video_lineEdit.text()
         clifer_path = r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt2.xml'
-        face_recognitation.face_re(model_path, video_path, clifer_path)
+        if model_path == '' or video_path == '':
+            QMessageBox.warning(self, 'Warning', '信息不完整', QMessageBox.Ok)
+        else:
+            flag = face_recognitation.face_re(model_path, video_path, clifer_path)
+            # flag = face_re_test.face_re(model_path, video_path, clifer_path)
+            if flag == 0:
+               QMessageBox.warning(self, 'Warning', 'NO Target Person', QMessageBox.Ok)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

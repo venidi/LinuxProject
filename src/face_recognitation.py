@@ -13,8 +13,9 @@ def face_re(model_path, video_path, clifer_path):
     video = cv.VideoCapture(video_path)
     # classifier = cv.CascadeClassifier(r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt2.xml')
     classifier = cv.CascadeClassifier(clifer_path)
+    flag = 0
     # 抽帧
-    TIME = 5
+    TIME = 10
     C = 1
     while video.isOpened():
         ok,frame = video.read()
@@ -32,6 +33,7 @@ def face_re(model_path, video_path, clifer_path):
                     faceID = model.face_predict(image)
                     # 识别并显示
                     if faceID == 0:
+                        flag = 1
                         cv.rectangle(frame, (x-10, y-10), (x+w+10, y+h+10), color, thickness=2)
                         cv.putText(frame, 'FACE_D', (x+30, y+30), cv.FONT_HERSHEY_SIMPLEX, 1,(255, 28, 33), 2)
                     else:
@@ -46,10 +48,11 @@ def face_re(model_path, video_path, clifer_path):
 
     video.release()
     cv.destroyAllWindows()
+    return flag
 
 
 if __name__ == '__main__':
     model_path = r'/home/venidi/FaceRecognition/test/LinuxProject/models/face_xi.model.h5'
-    video_path = r'/home/venidi/FaceRecognition/data/videos/toRe.mp4'
+    video_path = r'/home/venidi/FaceRecognition/data/videos/zeng.mp4'
     clifer_path = r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt2.xml'
     face_re(model_path, video_path,clifer_path)
