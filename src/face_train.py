@@ -59,7 +59,7 @@ class DataSet:
         print(test_images.shape[0], 'test')
 
         # 使用categorical_crossentropy作为损失函数
-        # 根据类别数量nb_classes将，类别标签进行one-hot编码使其向量化，在这里我们的类别只有两种，经过转化后标签数据变为二维
+        # 根据类别数量nb_classes将，类别标签进行one-hot编码使其向量化，经过转化后标签数据变为二维
         train_lables = np_utils.to_categorical(train_labels, nb_classes)
         valid_lables = np_utils.to_categorical(valid_labels, nb_classes)
         test_labels = np_utils.to_categorical(test_labels, nb_classes)
