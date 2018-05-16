@@ -58,7 +58,7 @@ def read_path(path_name):
         else:  # isfile
             if dir_one.endswith('.jpg'):
                 image = cv.imread(full_path)
-                # print(full_path)
+                print(full_path)
 
                 image = resize_image(image, IMAGE_SIZE, IMAGE_SIZE)
                 # print('img ok')
@@ -75,14 +75,12 @@ def read_path(path_name):
 def load_images(path_name, end_name):
     images, labels = read_path(path_name)
 
-    # 将输入的所有图片转成四维数组，尺寸为(图片数量*IMAGE_SIZE*IMAGE_SIZE*3)
-    # 我和闺女两个人共1200张图片，IMAGE_SIZE为64，故对我来说尺寸为1200 * 64 * 64 * 3
     # 图片为64 * 64像素,一个像素3个颜色值(RGB)
     images = np.array(images)
     print(images.shape)
 
-    # 标注数据，'me'文件夹下都是我的脸部图像，全部指定为0，
-    # 另外一个文件夹下是闺女的，全部指定为1
+    # 标注数据,选中的全部指定为0，
+    # 另外的文件夹，全部指定为1
     labels = np.array([0 if label.endswith(end_name) else 1 for label in labels])
 
     return images, labels

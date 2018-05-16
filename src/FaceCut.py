@@ -14,17 +14,17 @@ def face_cut(video_path, save_path, cfier_path):
     # path_name = r'./faces/faceO'
     path_name = save_path
     # openCV的人脸分类器
-    # classifier = cv.CascadeClassifier(r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt.xml')
     classifier = cv.CascadeClassifier(cfier_path)
 
     color = (0, 135, 255)
     num = 0
 
-    # 逐帧检测
+    # 检测逐帧
     while (1):
         ok, frame = video.read()
         if not ok:
             break
+
         # 转换成灰度图像便于计算
         gery = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
         # 人脸检测，1.2和2分别为图片缩放比例和需要检测的有效点数
@@ -47,9 +47,9 @@ def face_cut(video_path, save_path, cfier_path):
                 font = cv.FONT_HERSHEY_SIMPLEX
                 cv.putText(frame, 'num:%d' % (num), (x + 30, y + 30), font, 1, (255, 0, 255), 4)
 
-        # 超过指定最大保存数量结束程序
-        if num > 1000:
-            break
+            # 超过指定最大保存数量结束程序
+            if num > 1000:
+                break
 
         cv.imshow('PeopleRecognition', frame)
         c = cv.waitKey(1)
@@ -59,8 +59,8 @@ def face_cut(video_path, save_path, cfier_path):
     cv.destroyAllWindows()
 
 
-if __name__ == '__main__':
-    video_path = r'/home/venidi/FaceRecognition/data/videos/toRe.mp4'
-    save_path = r'/home/venidi/FaceRecognition/test/LinuxProject/faces/face_zz'
-    clfier_path = r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt.xml'
-    face_cut(video_path, save_path, clfier_path)
+# if __name__ == '__main__':
+#     video_path = r'/home/venidi/FaceRecognition/data/videos/toRe.mp4'
+#     save_path = r'/home/venidi/FaceRecognition/test/LinuxProject/faces/face_zz'
+#     clfier_path = r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt.xml'
+#     face_cut(video_path, save_path, clfier_path)

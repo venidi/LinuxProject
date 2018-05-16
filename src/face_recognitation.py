@@ -2,7 +2,7 @@ import cv2 as cv
 from src.face_train import Model
 
 # def face_re(model_path, video_path, clifer_path):
-def face_re(model_path, video_path, clifer_path):
+def face_re(model_path, video_path, clifer_path, time):
     model = Model()
     # 加载训练完的模型
     # model.load_model(file_path='./models/faceD_2.model.h5')
@@ -11,11 +11,11 @@ def face_re(model_path, video_path, clifer_path):
     cv.namedWindow('PeopleRecognition', 0)
     # video = cv.VideoCapture(r'/home/venidi/FaceRecognition/data/videos/kbr_full.mp4')
     video = cv.VideoCapture(video_path)
-    # classifier = cv.CascadeClassifier(r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt2.xml')
     classifier = cv.CascadeClassifier(clifer_path)
     flag = 0
     # 抽帧
-    TIME = 10
+    # TIME = 10
+    TIME = time
     C = 1
     while video.isOpened():
         ok,frame = video.read()
@@ -35,7 +35,7 @@ def face_re(model_path, video_path, clifer_path):
                     if faceID == 0:
                         flag = 1
                         cv.rectangle(frame, (x-10, y-10), (x+w+10, y+h+10), color, thickness=2)
-                        cv.putText(frame, 'FACE_D', (x+30, y+30), cv.FONT_HERSHEY_SIMPLEX, 1,(255, 28, 33), 2)
+                        cv.putText(frame, 'target', (x+30, y+30), cv.FONT_HERSHEY_SIMPLEX, 1,(255, 28, 33), 2)
                     else:
                         # pass
                         cv.rectangle(frame, (x - 10, y - 10), (x + w + 10, y + h + 10), color, thickness=2)
@@ -51,8 +51,8 @@ def face_re(model_path, video_path, clifer_path):
     return flag
 
 
-if __name__ == '__main__':
-    model_path = r'/home/venidi/FaceRecognition/test/LinuxProject/models/face_xi.model.h5'
-    video_path = r'/home/venidi/FaceRecognition/data/videos/zeng.mp4'
-    clifer_path = r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt2.xml'
-    face_re(model_path, video_path,clifer_path)
+# if __name__ == '__main__':
+#     model_path = r'/home/venidi/FaceRecognition/test/LinuxProject/models/face_xi.model.h5'
+#     video_path = r'/home/venidi/FaceRecognition/data/videos/zeng.mp4'
+#     clifer_path = r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt2.xml'
+#     face_re(model_path, video_path,clifer_path)

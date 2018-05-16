@@ -10,7 +10,7 @@ from PyQt5 import QtCore, QtWidgets
 import sys,os
 from PyQt5.QtWidgets import QApplication,QMainWindow, QFileDialog, QWidget,QMessageBox
 from PyQt5.QtCore import QDir
-from src import face_recognitation, face_train
+from src import face_recognitation, face_train, FaceCut
 
 
 class Ui_MainWindow(QWidget):
@@ -222,7 +222,7 @@ class Ui_MainWindow(QWidget):
     def open_video_file(self):
         fileName, _ = QFileDialog.getOpenFileName(self, '选择样本视频',
                                                   QDir.homePath(),
-                                                  'Videos (*.mp4 *.ts *.avi *.mpeg *.mpg *.mkv *.VOB *.m4v)')
+                                                  'Videos (*.MOV *.mp4 *.ts *.avi *.mpeg *.mpg *.mkv *.VOB *.m4v)')
         if fileName != '':
             print(fileName)
             self.input_video_path.setText(fileName)
@@ -240,13 +240,13 @@ class Ui_MainWindow(QWidget):
     def faceCut(self):
         people_name = self.input_name_lineEdit.text()
         save_path = r'/home/venidi/FaceRecognition/test/LinuxProject/faces/' + people_name
-        # os.mkdir(save_path)
+        os.mkdir(save_path)
         vedio_path = self.input_video_path.text()
         classifer_path = self.classifer_path.text()
         print('vedio path->'+vedio_path)
         print('save_path->'+save_path)
         print('classifer_path->'+classifer_path)
-        # FaceCut.face_cut(vedio_path,save_path,classifer_path)
+        FaceCut.face_cut(vedio_path,save_path,classifer_path)
 
         if vedio_path == '' or classifer_path == '' or people_name == '':
             QMessageBox.warning(self,'Warning','信息不完整',QMessageBox.Ok)
@@ -270,6 +270,8 @@ class Ui_MainWindow(QWidget):
     def start_train(self):
         full_path = self.train_end_file.text()
         print('full_path->' + full_path)
+
+        # 以文件夹名命名模型名
         cut_full_path = full_path.split('/')
         # print('cut_full_path->' + cut_full_path)
         end_name =cut_full_path[-1]
@@ -294,20 +296,36 @@ class Ui_MainWindow(QWidget):
     def select_re_video(self):
         fileName, _ = QFileDialog.getOpenFileName(self, '选择视频',
                                                   QDir.homePath(),
-                                                  'Videos (*.mp4 *.ts *.avi *.mpeg *.mpg *.mkv *.VOB *.m4v)')
+                                                  'Videos (*.MOV *.mp4 *.ts *.avi *.mpeg *.mpg *.mkv *.VOB *.m4v)')
         if fileName != '':
             print(fileName)
             self.re_video_lineEdit.setText(fileName)
 
     # 开始检索
     def re_video(self):
+        #
         model_path = self.model_path.text()
         video_path = self.re_video_lineEdit.text()
-        clifer_path = r'/opt/opencv34/data/haarcascades/haarcascade_frontalface_alt2.xml'
+
+        # 默认分类器
+        # clifer_path = r'../classifier/faceClassifier_easy.xml'
+        clifer_path = r'../classifier/faceClassifier_strict.xml'
+        # 检测速度设置
+        if self.speed_button_2.isChecked():
+            time = 10
+        if self.speed_button_4.isChecked():
+            time = 20
+        if self.speed_button_8.isChecked():
+            time = 30
+        if self.speed_button_16.isChecked():
+            time = 40
+
+        # 参数检测
         if model_path == '' or video_path == '':
             QMessageBox.warning(self, 'Warning', '信息不完整', QMessageBox.Ok)
         else:
-            flag = face_recognitation.face_re(model_path, video_path, clifer_path)
+            # flag标记是否有目标
+            flag = face_recognitation.face_re(model_path, video_path, clifer_path,time)
             # flag = face_re_test.face_re(model_path, video_path, clifer_path)
             if flag == 0:
                QMessageBox.warning(self, 'Warning', 'NO Target Person', QMessageBox.Ok)
